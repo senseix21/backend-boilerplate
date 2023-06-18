@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "D:\\WebDEV\\ph-level-2\\Projects\\Level2-assignment-3-Digital-Cow-Hut\\logs\\winston\\successes\\.e77f21f941d64275755a9159c438fbc9d0f83c0d-audit.json",
+    "files": [
+        {
+            "date": 1687085728072,
+            "name": "D:\\WebDEV\\ph-level-2\\Projects\\Level2-assignment-3-Digital-Cow-Hut\\logs\\winston\\successes\\phu-2023-18-06-16-success.log",
+            "hash": "2c7cc65b413b48381c665e95fec62d2ca57c7858e0153427719c4dbfdcf7d709"
+        },
+        {
+            "date": 1687088282656,
+            "name": "D:\\WebDEV\\ph-level-2\\Projects\\Level2-assignment-3-Digital-Cow-Hut\\logs\\winston\\successes\\phu-2023-18-06-17-success.log",
+            "hash": "378031b272a869fa353a3432cac776ac15a7a1b340bc5309db5b7afd24387582"
+        }
+    ],
+    "hashType": "sha256"
+}
