@@ -11,7 +11,7 @@ const user_validation_1 = require("./user.validation");
 // import { validateRequest } from '../../middlewares/validateRequest';
 // import { UserValidation } from './user.validation';
 const router = express_1.default.Router();
-router.post('/create-user', (0, validateRequest_1.default)(user_validation_1.UserValidation.createUserZodSchema), user_controller_1.UserController.createUser);
+router.post('/signup', (0, validateRequest_1.default)(user_validation_1.UserValidation.createUserZodSchema), user_controller_1.UserController.createUser);
 router.get('/', user_controller_1.UserController.getAllUsers);
 router.get('/:id', user_controller_1.UserController.getUserById);
 router.patch('/:id', (0, validateRequest_1.default)(user_validation_1.UserValidation.updateUserZodSchema), user_controller_1.UserController.updateUserByID);

@@ -10,6 +10,10 @@ const order_routes_1 = require("../modules/orders/order.routes");
 const router = express_1.default.Router();
 const moduleRoutes = [
     {
+        path: '/auth',
+        route: user_routes_1.UserRoutes
+    },
+    {
         path: '/users',
         route: user_routes_1.UserRoutes,
     },
