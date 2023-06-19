@@ -1,6 +1,6 @@
 import { SortOrder } from "mongoose";
 import ApiError from "../../../errors/ApiError";
-import { paginationHelpers } from "../../../errors/helpers/paginationHelpers";
+import { paginationHelpers } from "../../../helpers/paginationHelpers";
 import { IGenericResponse } from "../../../interfaces/common";
 import { IPaginationOptions } from "../../../interfaces/pagination";
 import { excludeFields, updateFields, userSearchableFields } from "./user.constants";

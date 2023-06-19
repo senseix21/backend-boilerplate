@@ -5,7 +5,7 @@ import { Cow } from "./cow.model";
 import { cowKeys, cowSearchableFields, excludeFields } from "./cow.constants";
 import { IGenericResponse } from "../../../interfaces/common";
 import { IPaginationOptions } from "../../../interfaces/pagination";
-import { paginationHelpers } from "../../../errors/helpers/paginationHelpers";
+import { paginationHelpers } from "../../../helpers/paginationHelpers";
 import { SortOrder } from "mongoose";
 
 //Create a Cow
@@ -21,7 +21,7 @@ const getAllCows = async (
     paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<ICow[]>> => {
     const { searchTerm, ...filtersData } = filters;
-    const { page, limit, skip, sortBy, sortOrder } =
+    const { page, limit, skip, sortBy, sortOrder, } =
         paginationHelpers.calculatePagination(paginationOptions);
 
     const andConditions = [];
@@ -57,7 +57,8 @@ const getAllCows = async (
     const result = await Cow.find(whereConditions)
         .sort(sortConditions)
         .skip(skip)
-        .limit(limit);
+        .limit(limit)
+        ;
 
     const total = await Cow.countDocuments();
 
