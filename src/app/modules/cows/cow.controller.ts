@@ -11,7 +11,7 @@ import pick from "../../../shared/pick";
 //create a new Cow
 const createCow: RequestHandler = catchAsync(async (req, res, next) => {
     const cowData = req.body;
-    logger.info(cowData);
+    console.log(cowData);
     const result = await CowService.createCow(cowData);
 
     sendResponse(

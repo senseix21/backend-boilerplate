@@ -1,6 +1,4 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
-import ApiError from '../errors/ApiError';
-import httpStatus from 'http-status';
 
 
 const catchAsync =
@@ -9,7 +7,7 @@ const catchAsync =
             try {
                 await fn(req, res, next);
             } catch (error) {
-                next(new ApiError(httpStatus.BAD_REQUEST, 'Invalid Request'));
+                next(error);
             }
         }
 

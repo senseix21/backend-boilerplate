@@ -14,7 +14,7 @@ import { userSearchableFields } from "./user.constants";
 //create a new user
 const createUser: RequestHandler = catchAsync(async (req, res, next) => {
     const user = req.body;
-    logger.info(user);
+    console.log(user);
     const result = await UserService.createUser(user);
 
     sendResponse(

@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
 import { AnyZodObject, ZodEffects } from 'zod'
-import ApiError from '../../errors/ApiError';
 
 const validateRequest = (schema: AnyZodObject | ZodEffects<AnyZodObject>) => async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -12,7 +11,7 @@ const validateRequest = (schema: AnyZodObject | ZodEffects<AnyZodObject>) => asy
         })
         return next();
     } catch (error) {
-        next(new ApiError(400, 'Validation Error'));
+        next(error);
     }
 }
 
