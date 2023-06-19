@@ -25,7 +25,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
-const paginationHelpers_1 = require("../../../errors/helpers/paginationHelpers");
+const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const user_constants_1 = require("./user.constants");
 const user_model_1 = require("./user.model");
 const http_status_1 = __importDefault(require("http-status"));

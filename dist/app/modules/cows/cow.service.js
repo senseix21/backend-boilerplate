@@ -28,7 +28,7 @@ const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const http_status_1 = __importDefault(require("http-status"));
 const cow_model_1 = require("./cow.model");
 const cow_constants_1 = require("./cow.constants");
-const paginationHelpers_1 = require("../../../errors/helpers/paginationHelpers");
+const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 //Create a Cow
 const createCow = (cowData) => __awaiter(void 0, void 0, void 0, function* () {
     const createdCow = yield cow_model_1.Cow.create(cowData);
@@ -38,7 +38,7 @@ const createCow = (cowData) => __awaiter(void 0, void 0, void 0, function* () {
 //get all Cows
 const getAllCows = (filters, paginationOptions) => __awaiter(void 0, void 0, void 0, function* () {
     const { searchTerm } = filters, filtersData = __rest(filters, ["searchTerm"]);
-    const { page, limit, skip, sortBy, sortOrder } = paginationHelpers_1.paginationHelpers.calculatePagination(paginationOptions);
+    const { page, limit, skip, sortBy, sortOrder, } = paginationHelpers_1.paginationHelpers.calculatePagination(paginationOptions);
     const andConditions = [];
     if (searchTerm) {
         andConditions.push({
