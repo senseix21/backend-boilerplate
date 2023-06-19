@@ -12,7 +12,7 @@ const validateRequest = (schema: AnyZodObject | ZodEffects<AnyZodObject>) => asy
         })
         return next();
     } catch (error) {
-        next(ApiError);
+        next(new ApiError(400, 'Validation Error'));
     }
 }
 

@@ -13,12 +13,15 @@ router.post(
     UserController.createUser
 );
 
-// router.get('/users', UserController.getAllUsers);
-// router.get('/users/:id', UserController.getUserById);
-// router.put(
-//     '/users/:id',
-//     // validateRequest(UserValidation.updateUserZodSchema),
-//     UserController.updateUser);
-// router.delete('/users/:id', UserController.deleteUserById);
+router.get('/', UserController.getAllUsers);
+
+router.get('/:id', UserController.getUserById);
+
+router.patch(
+    '/:id',
+    validateRequest(UserValidation.updateUserZodSchema),
+    UserController.updateUserByID);
+
+router.delete('/:id', UserController.deleteUserByID);
 
 export const UserRoutes = router;

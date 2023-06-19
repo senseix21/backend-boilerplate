@@ -16,3 +16,6 @@ export type IUser = {
 
 export type UserModel = Model<IUser, Record<string, unknown>>;
 
+export type IUserFilters = {
+    searchTerm?: string;
+}
