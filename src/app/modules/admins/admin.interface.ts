@@ -31,7 +31,7 @@ export type IRefreshTokenResponse = {
 // export type AdminModel = Model<IAdmin, Record<string, unknown>>;
 
 export type AdminModel = {
-    isAdminExist(phoneNumber: string): Promise<Pick<IAdmin, 'phoneNumber' | 'password' | 'role'>>;
+    isAdminExist(phoneNumber: string): Promise<Pick<IAdmin, 'id' | 'phoneNumber' | 'password' | 'role'>>;
 
     isPasswordMatched(
         givenPassword: string,

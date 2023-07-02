@@ -4,6 +4,7 @@ import { User } from "../users/user.model";
 import { ILoginUser, ILoginUserResponse } from "./auth.interface";
 import { jwtHelpers } from "../../../helpers/jwthelpers";
 import config from "../../../config";
+import { Secret } from "jsonwebtoken";
 
 const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
     const { phoneNumber, password } = payload;
@@ -23,7 +24,7 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
 
     //create access token & refresh token
 
-    const { id: userId, role, needsPasswordChange } = isUserExist;
+    const { _id: userId, role } = isUserExist;
     const accessToken = jwtHelpers.createToken(
         { userId, role },
         config.jwt.secret as Secret,
@@ -39,7 +40,6 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
     return {
         accessToken,
         refreshToken,
-        needsPasswordChange,
     };
 };
 
