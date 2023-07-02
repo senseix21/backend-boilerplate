@@ -1,5 +1,5 @@
-import { Model, Schema, model } from "mongoose";
-import { IUser } from "./user.interface";
+import { Schema, model } from "mongoose";
+import { IUser, UserModel } from "./user.interface";
 import config from "../../../config";
 import bcrypt from 'bcrypt';
 
@@ -49,6 +49,24 @@ const UserSchema = new Schema<IUser>({
         },
     });
 
+
+UserSchema.statics.isUserExist = async function (
+    phoneNumber: string
+): Promise<Pick<IUser, 'phoneNumber' | 'password' | 'role'>> {
+    return await this.findOne(
+        { phoneNumber },
+        { phoneNumber: 1, password: 1, role: 1 }
+    ).exec();
+};
+
+
+UserSchema.statics.isPasswordMatched = async function (
+    givenPassword: string,
+    savedPassword: string
+): Promise<boolean> {
+    return await bcrypt.compare(givenPassword, savedPassword);
+};
+
 UserSchema.pre('save', async function (next) {
     // hashing Users password
     this.password = await bcrypt.hash(
@@ -58,4 +76,6 @@ UserSchema.pre('save', async function (next) {
     next();
 });
 
-export const User: Model<IUser> = model<IUser>("User", UserSchema);
+
+
+export const User = model<IUser, UserModel>("User", UserSchema);

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { ENUM_USER_ROLE } from "../../../enums/user";
 
 export type ILoginUser = {
@@ -8,7 +9,6 @@ export type ILoginUser = {
 export type ILoginUserResponse = {
     accessToken: string;
     refreshToken?: string;
-    needsPasswordChange: boolean;
 };
 
 export type IRefreshTokenResponse = {
@@ -18,4 +18,6 @@ export type IRefreshTokenResponse = {
 export type IVerifiedLoginUser = {
     userId: string;
     role: ENUM_USER_ROLE;
-};  
+};
+
+

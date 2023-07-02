@@ -18,7 +18,7 @@ export type IUser = {
 // export type UserModel = Model<IUser, Record<string, unknown>>;
 
 export type UserModel = {
-    isAdminExist(phoneNumber: string): Promise<Pick<IUser, 'phoneNumber' | 'password' | 'role'>>;
+    isUserExist(phoneNumber: string): Promise<Pick<IUser, 'phoneNumber' | 'password' | 'role'>>;
     isPasswordMatched(givenPassword: string, savedPassword: string): Promise<boolean>;
 } & Model<IUser>;
 
