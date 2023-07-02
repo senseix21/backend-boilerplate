@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Model } from "mongoose";
 
 export type IUser = {
@@ -14,7 +15,13 @@ export type IUser = {
     income: number;
 };
 
-export type UserModel = Model<IUser, Record<string, unknown>>;
+// export type UserModel = Model<IUser, Record<string, unknown>>;
+
+export type UserModel = {
+    isAdminExist(phoneNumber: string): Promise<Pick<IUser, 'phoneNumber' | 'password' | 'role'>>;
+    isPasswordMatched(givenPassword: string, savedPassword: string): Promise<boolean>;
+} & Model<IUser>;
+
 
 export type IUserFilters = {
     searchTerm?: string;
