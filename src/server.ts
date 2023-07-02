@@ -6,7 +6,6 @@ import { errorlogger, logger } from "./shared/logger";
 import ApiError from "./errors/ApiError";
 import { Server } from 'http';
 
-console.log(config.database_url)
 
 process.on('uncaughtException', error => {
     console.error(error);
@@ -43,9 +42,9 @@ process.on('unhandledRejection', error => {
 
 
 connectDB();
-process.on('SIGTERM', () => {
-    console.log('SIGTERM is received');
-    if (server) {
-        server.close();
-    }
-});
+// process.on('SIGTERM', () => {
+//     console.log('SIGTERM is received');
+//     if (server) {
+//         server.close();
+//     }
+// });
