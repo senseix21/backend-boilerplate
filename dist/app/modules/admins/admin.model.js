@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Admin = void 0;
 const mongoose_1 = require("mongoose");
-const config_1 = __importDefault(require("../../../config"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const UserSchema = new mongoose_1.Schema({
+const config_1 = __importDefault(require("../../../config"));
+const AdminSchema = new mongoose_1.Schema({
     phoneNumber: {
         type: String,
         unique: true,
@@ -24,12 +24,13 @@ const UserSchema = new mongoose_1.Schema({
     },
     role: {
         type: String,
-        enum: ['seller', 'buyer'],
+        enum: ['admin'],
         required: true
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        select: 0
     },
     name: {
         firstName: {
@@ -45,35 +46,28 @@ const UserSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
-    budget: {
-        type: Number,
-        required: true
-    },
-    income: {
-        type: Number,
-        required: true
-    },
 }, {
     timestamps: true,
     toJSON: {
-        virtuals: true,
-    },
+        virtuals: true
+    }
 });
-UserSchema.statics.isUserExist = function (phoneNumber) {
+AdminSchema.statics.isAdminExist = function (phoneNumber) {
     return __awaiter(this, void 0, void 0, function* () {
         return yield this.findOne({ phoneNumber }, { phoneNumber: 1, password: 1, role: 1 }).exec();
     });
 };
-UserSchema.statics.isPasswordMatched = function (givenPassword, savedPassword) {
+AdminSchema.statics.isPasswordMatched = function (givenPassword, savedPassword) {
     return __awaiter(this, void 0, void 0, function* () {
         return yield bcrypt_1.default.compare(givenPassword, savedPassword);
     });
 };
-UserSchema.pre('save', function (next) {
+// Admin.create() / Admin.save()
+AdminSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        // hashing Users password
+        // hashing Admin password
         this.password = yield bcrypt_1.default.hash(this.password, Number(config_1.default.bycrypt_salt_rounds));
         next();
     });
 });
-exports.User = (0, mongoose_1.model)("User", UserSchema);
+exports.Admin = (0, mongoose_1.model)('Admin', AdminSchema);

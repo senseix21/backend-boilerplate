@@ -85,13 +85,14 @@ const getUserById = async (id: string): Promise<IUser | null> => {
 
 //get My Profile
 const getMyProfile = async (id: string): Promise<IUser | null> => {
-    const result = await User.findById(id);
+    const result = await User.findById(id, { name: 1, phoneNumber: 1, address: 1 });
     return result;
 };
 
 //Update My Profile
 const updateMyProfile = async (id: string, upatedData: Partial<IUser>): Promise<IUser | null> => {
-    const result = await User.findByIdAndUpdate(id, upatedData, { new: true });
+    console.log(upatedData)
+    const result = await User.findByIdAndUpdate(id, upatedData, { new: true, name: 1, phoneNumber: 1, address: 1 });
     return result;
 };
 

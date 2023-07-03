@@ -85,6 +85,17 @@ const getUserById = (id) => __awaiter(void 0, void 0, void 0, function* () {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "User not found");
     }
 });
+//get My Profile
+const getMyProfile = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findById(id, { name: 1, phoneNumber: 1, address: 1 });
+    return result;
+});
+//Update My Profile
+const updateMyProfile = (id, upatedData) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(upatedData);
+    const result = yield user_model_1.User.findByIdAndUpdate(id, upatedData, { new: true, name: 1, phoneNumber: 1, address: 1 });
+    return result;
+});
 //update a single users
 const updateUserById = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const isExists = yield user_model_1.User.findById(id);
@@ -125,5 +136,7 @@ exports.UserService = {
     getAllUsers,
     getUserById,
     updateUserById,
-    deleteUserById
+    deleteUserById,
+    getMyProfile,
+    updateMyProfile
 };

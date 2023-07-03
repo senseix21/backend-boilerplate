@@ -20,10 +20,11 @@ const user_service_1 = require("./user.service");
 const lodash_1 = require("lodash");
 const pagination_1 = require("../../../constants/pagination");
 const user_constants_1 = require("./user.constants");
+const jwthelpers_1 = require("../../../helpers/jwthelpers");
+const config_1 = __importDefault(require("../../../config"));
 //create a new user
 const createUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.body;
-    console.log(user);
     const result = yield user_service_1.UserService.createUser(user);
     (0, sendResponse_1.default)(res, {
         success: true,
@@ -42,6 +43,35 @@ const getAllUsers = (0, catchAsync_1.default)((req, res, next) => __awaiter(void
         success: true,
         statusCode: http_status_1.default.OK,
         message: 'Users retrieved successfully!',
+        data: result
+    });
+    next();
+}));
+//get my profile
+const getMyProfile = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const accessToken = req.headers.authorization;
+    const decodedToken = jwthelpers_1.jwtHelpers.verifyToken(accessToken, config_1.default.jwt.secret);
+    const userId = decodedToken.userId;
+    const result = yield user_service_1.UserService.getMyProfile(userId);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: 'Got my profile successfully!',
+        data: result
+    });
+    next();
+}));
+//update my profile
+const updateMyProfile = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const accessToken = req.headers.authorization;
+    const decodedToken = jwthelpers_1.jwtHelpers.verifyToken(accessToken, config_1.default.jwt.secret);
+    const userId = decodedToken.userId;
+    const upatedData = req.body;
+    const result = yield user_service_1.UserService.updateMyProfile(userId, upatedData);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: 'UPdated my profile successfully!',
         data: result
     });
     next();
@@ -71,7 +101,7 @@ const updateUserByID = (0, catchAsync_1.default)((req, res, next) => __awaiter(v
     });
     next();
 }));
-//update a user by id
+//delete a user by id
 const deleteUserByID = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const result = yield user_service_1.UserService.deleteUserById(id);
@@ -88,5 +118,7 @@ exports.UserController = {
     getAllUsers,
     getUserById,
     updateUserByID,
-    deleteUserByID
+    deleteUserByID,
+    getMyProfile,
+    updateMyProfile
 };

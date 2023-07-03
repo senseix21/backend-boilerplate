@@ -13,6 +13,19 @@ const createAdmin = async (admin: IAdmin): Promise<IAdmin> => {
     return result;
 };
 
+
+//get My Profile
+const getMyProfile = async (id: string): Promise<IAdmin | null> => {
+    const result = await Admin.findById(id, { name: 1, phoneNumber: 1, address: 1 });
+    return result;
+};
+
+//Update My Profile
+const updateMyProfile = async (id: string, upatedData: Partial<IAdmin>): Promise<IAdmin | null> => {
+    const result = await Admin.findByIdAndUpdate(id, upatedData, { new: true, name: 1, phoneNumber: 1, address: 1 });
+    return result;
+};
+
 //LOgin Admin
 const loginAdmin = async (payload: ILoginAdmin): Promise<ILoginAdminResponse> => {
     const { phoneNumber, password } = payload;
@@ -56,4 +69,6 @@ const loginAdmin = async (payload: ILoginAdmin): Promise<ILoginAdminResponse> =>
 export const AdminService = {
     createAdmin,
     loginAdmin,
+    getMyProfile,
+    updateMyProfile
 }

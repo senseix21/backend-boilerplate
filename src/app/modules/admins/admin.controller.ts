@@ -5,6 +5,8 @@ import httpStatus from "http-status";
 import { AdminService } from "./admin.service";
 import { ILoginAdminResponse } from "./admin.interface";
 import config from "../../../config";
+import { jwtHelpers } from "../../../helpers/jwthelpers";
+import { Secret } from "jsonwebtoken";
 
 //create a new admin
 const createAdmin: RequestHandler = catchAsync(async (req, res, next) => {
@@ -19,6 +21,44 @@ const createAdmin: RequestHandler = catchAsync(async (req, res, next) => {
         data: result
     });
 
+    next();
+});
+
+
+//get my profile
+const getMyProfile: RequestHandler = catchAsync(async (req, res, next) => {
+    const accessToken: any = req.headers.authorization;
+    const decodedToken = jwtHelpers.verifyToken(accessToken, config.jwt.secret as Secret);
+    const userId = decodedToken.userId;
+    const result = await AdminService.getMyProfile(userId);
+
+    sendResponse(
+        res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: 'Got my profile successfully!',
+        data: result
+    });
+    next();
+});
+
+
+//update my profile
+const updateMyProfile: RequestHandler = catchAsync(async (req, res, next) => {
+    const accessToken: any = req.headers.authorization;
+    const decodedToken = jwtHelpers.verifyToken(accessToken, config.jwt.secret as Secret);
+    const userId = decodedToken.userId;
+
+    const upatedData = req.body;
+    const result = await AdminService.updateMyProfile(userId, upatedData);
+
+    sendResponse(
+        res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: 'UPdated my profile successfully!',
+        data: result
+    });
     next();
 });
 
@@ -47,5 +87,7 @@ const loginAdmin = catchAsync(async (req: Request, res: Response) => {
 
 export const AdminController = {
     createAdmin,
-    loginAdmin
+    loginAdmin,
+    getMyProfile,
+    updateMyProfile
 }

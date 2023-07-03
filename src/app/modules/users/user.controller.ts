@@ -64,21 +64,6 @@ const getMyProfile: RequestHandler = catchAsync(async (req, res, next) => {
     next();
 });
 
-//get a single user by id
-const getUserById: RequestHandler = catchAsync(async (req, res, next) => {
-    const id = req.params.id;
-    const result = await UserService.getUserById(id);
-
-    sendResponse(
-        res, {
-        success: true,
-        statusCode: httpStatus.OK,
-        message: 'User retrieved successfully!',
-        data: result
-    });
-    next();
-});
-
 //update my profile
 const updateMyProfile: RequestHandler = catchAsync(async (req, res, next) => {
     const accessToken: any = req.headers.authorization;
@@ -97,6 +82,23 @@ const updateMyProfile: RequestHandler = catchAsync(async (req, res, next) => {
     });
     next();
 });
+
+//get a single user by id
+const getUserById: RequestHandler = catchAsync(async (req, res, next) => {
+    const id = req.params.id;
+    const result = await UserService.getUserById(id);
+
+    sendResponse(
+        res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: 'User retrieved successfully!',
+        data: result
+    });
+    next();
+});
+
+
 //update a user by id
 const updateUserByID: RequestHandler = catchAsync(async (req, res, next) => {
     const id = req.params.id;

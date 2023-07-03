@@ -13,6 +13,11 @@ const orderSchema = new mongoose_1.Schema({
         ref: 'Cow',
         required: true
     },
+    seller: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
 }, {
     timestamps: true
 });

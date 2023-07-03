@@ -54,22 +54,45 @@ const createOrder = (orderData) => __awaiter(void 0, void 0, void 0, function* (
         yield seller.save();
         // Create the order entry
         const createdOrder = yield order_model_1.Order.create(orderData);
-        // Populate the buyer and cow fields with the updated data
-        const populatedOrder = yield createdOrder
-            .populate('buyer');
         // Commit the transaction
         yield session.commitTransaction();
         session.endSession();
-        return populatedOrder;
+        return createdOrder;
     }
     catch (error) {
         // Abort the transaction if any error occurs
         throw new ApiError_1.default(402, 'Error creating order');
     }
 });
-//get all orders
-const getAllOrders = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield order_model_1.Order.find();
+//GEt a single order
+const getOrder = (orderId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield order_model_1.Order.findById(orderId)
+        .populate('buyer')
+        .populate('cow');
     return result;
 });
-exports.OrderService = { createOrder, getAllOrders };
+//get all orders
+const getAllOrders = (userId, role) => __awaiter(void 0, void 0, void 0, function* () {
+    if (role === 'admin') {
+        // Admin can get all orders
+        const result = yield order_model_1.Order.find()
+            .populate('buyer')
+            .populate('cow');
+        return result;
+    }
+    else if (role === 'buyer') {
+        // Buyer can get their own orders
+        const result = yield order_model_1.Order.findOne({ buyer: userId })
+            .populate('buyer')
+            .populate('cow');
+        return result;
+    }
+    else if (role === 'seller') {
+        // Seller can get orders associated with them
+        const result = yield order_model_1.Order.find({ seller: userId })
+            .populate('buyer')
+            .populate('cow');
+        return result;
+    }
+});
+exports.OrderService = { createOrder, getAllOrders, getOrder };

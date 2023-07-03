@@ -7,11 +7,13 @@ const express_1 = __importDefault(require("express"));
 const user_routes_1 = require("../modules/users/user.routes");
 const cow_routes_1 = require("../modules/cows/cow.routes");
 const order_routes_1 = require("../modules/orders/order.routes");
+const admin_routes_1 = require("../modules/admins/admin.routes");
+const auth_routes_1 = require("../modules/auth/auth.routes");
 const router = express_1.default.Router();
 const moduleRoutes = [
     {
         path: '/auth',
-        route: user_routes_1.UserRoutes
+        route: auth_routes_1.AuthRoutes
     },
     {
         path: '/users',
@@ -24,6 +26,10 @@ const moduleRoutes = [
     {
         path: '/orders',
         route: order_routes_1.OrderRoutes,
+    },
+    {
+        path: '/admins',
+        route: admin_routes_1.AdminRoutes,
     }
 ];
 //configure the routes
