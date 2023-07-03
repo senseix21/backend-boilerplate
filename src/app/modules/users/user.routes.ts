@@ -2,21 +2,22 @@ import express from 'express';
 import { UserController } from './user.controller';
 import validateRequest from '../../middlewares/validateRequest';
 import { UserValidation } from './user.validation';
+import authenticate from '../../middlewares/authenticate';
 // import { validateRequest } from '../../middlewares/validateRequest';
 // import { UserValidation } from './user.validation';
 
 const router = express.Router();
 
 
-router.get('/', UserController.getAllUsers);
+router.get('/', authenticate('admin'), UserController.getAllUsers);
 
-router.get('/:id', UserController.getUserById);
+router.get('/:id', authenticate('admin'), UserController.getUserById);
 
 router.patch(
-    '/:id',
+    '/:id', authenticate('admin'),
     validateRequest(UserValidation.updateUserZodSchema),
     UserController.updateUserByID);
 
-router.delete('/:id', UserController.deleteUserByID);
+router.delete('/:id', authenticate('admin'), UserController.deleteUserByID);
 
 export const UserRoutes = router;
