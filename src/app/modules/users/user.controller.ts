@@ -3,10 +3,12 @@ import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import { UserService } from "./user.service";
-import { logger } from "../../../shared/logger";
 import { pick } from "lodash";
 import { paginationFields } from "../../../constants/pagination";
 import { userSearchableFields } from "./user.constants";
+import { jwtHelpers } from "../../../helpers/jwthelpers";
+import config from "../../../config";
+import { Secret } from "jsonwebtoken";
 
 
 
@@ -14,9 +16,7 @@ import { userSearchableFields } from "./user.constants";
 //create a new user
 const createUser: RequestHandler = catchAsync(async (req, res, next) => {
     const user = req.body;
-    console.log(user);
     const result = await UserService.createUser(user);
-    console.log(result);
 
     sendResponse(
         res, {
@@ -46,6 +46,24 @@ const getAllUsers: RequestHandler = catchAsync(async (req, res, next) => {
     next();
 });
 
+
+//get my profile
+const getMyProfile: RequestHandler = catchAsync(async (req, res, next) => {
+    const accessToken: any = req.headers.authorization;
+    const decodedToken = jwtHelpers.verifyToken(accessToken, config.jwt.secret as Secret);
+    const userId = decodedToken.userId;
+    const result = await UserService.getMyProfile(userId);
+
+    sendResponse(
+        res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: 'Got my profile successfully!',
+        data: result
+    });
+    next();
+});
+
 //get a single user by id
 const getUserById: RequestHandler = catchAsync(async (req, res, next) => {
     const id = req.params.id;
@@ -61,6 +79,24 @@ const getUserById: RequestHandler = catchAsync(async (req, res, next) => {
     next();
 });
 
+//update my profile
+const updateMyProfile: RequestHandler = catchAsync(async (req, res, next) => {
+    const accessToken: any = req.headers.authorization;
+    const decodedToken = jwtHelpers.verifyToken(accessToken, config.jwt.secret as Secret);
+    const userId = decodedToken.userId;
+
+    const upatedData = req.body;
+    const result = await UserService.updateMyProfile(userId, upatedData);
+
+    sendResponse(
+        res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: 'UPdated my profile successfully!',
+        data: result
+    });
+    next();
+});
 //update a user by id
 const updateUserByID: RequestHandler = catchAsync(async (req, res, next) => {
     const id = req.params.id;
@@ -76,7 +112,8 @@ const updateUserByID: RequestHandler = catchAsync(async (req, res, next) => {
     });
     next();
 });
-//update a user by id
+
+//delete a user by id
 const deleteUserByID: RequestHandler = catchAsync(async (req, res, next) => {
     const id = req.params.id;
     const result = await UserService.deleteUserById(id);
@@ -92,10 +129,16 @@ const deleteUserByID: RequestHandler = catchAsync(async (req, res, next) => {
 });
 
 
+
+
+
+
 export const UserController = {
     createUser,
     getAllUsers,
     getUserById,
     updateUserByID,
-    deleteUserByID
+    deleteUserByID,
+    getMyProfile,
+    updateMyProfile
 };

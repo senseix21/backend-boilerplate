@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import ApiError from "../../../errors/ApiError";
 
 
-const createOrder = async (orderData: IOrder | any): Promise<IOrder> => {
+const createOrder = async (orderData: IOrder | any): Promise<IOrder | undefined> => {
     try {
         // Start a transaction session
         const session = await mongoose.startSession();
@@ -32,6 +32,8 @@ const createOrder = async (orderData: IOrder | any): Promise<IOrder> => {
             throw new Error('Insufficient funds');
         }
 
+
+
         // Update the cow's status to 'sold out'
         cowInfo.label = 'sold out';
         await cowInfo.save();
@@ -52,15 +54,13 @@ const createOrder = async (orderData: IOrder | any): Promise<IOrder> => {
         // Create the order entry
         const createdOrder = await Order.create(orderData)
 
-        // Populate the buyer and cow fields with the updated data
-        const populatedOrder = await createdOrder
-            .populate('buyer')
+
 
         // Commit the transaction
         await session.commitTransaction();
         session.endSession();
 
-        return populatedOrder;
+        return createdOrder;
 
     } catch (error) {
         // Abort the transaction if any error occurs
@@ -68,10 +68,44 @@ const createOrder = async (orderData: IOrder | any): Promise<IOrder> => {
     }
 };
 
-//get all orders
-const getAllOrders = async (): Promise<IOrder[]> => {
-    const result = await Order.find()
+//GEt a single order
+const getOrder = async (orderId: string): Promise<IOrder | null> => {
+    const result = await Order.findById(orderId)
+        .populate('buyer')
+        .populate('cow');
+
     return result;
+};
+
+//get all orders
+const getAllOrders = async (userId: string, role: string): Promise<IOrder[] | IOrder | undefined | null> => {
+
+
+    if (role === 'admin') {
+        // Admin can get all orders
+        const result = await Order.find()
+            .populate('buyer')
+            .populate('cow')
+
+        return result;
+
+    } else if (role === 'buyer') {
+        // Buyer can get their own orders
+        const result = await Order.findOne({ buyer: userId })
+            .populate('buyer')
+            .populate('cow')
+
+        return result;
+
+    } else if (role === 'seller') {
+        // Seller can get orders associated with them
+        const result = await Order.find({ seller: userId })
+            .populate('buyer')
+            .populate('cow')
+
+        return result;
+    }
+
 }
 
-export const OrderService = { createOrder, getAllOrders }
+export const OrderService = { createOrder, getAllOrders, getOrder }

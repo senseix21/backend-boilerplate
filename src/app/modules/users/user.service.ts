@@ -81,6 +81,21 @@ const getUserById = async (id: string): Promise<IUser | null> => {
         throw new ApiError(httpStatus.BAD_REQUEST, "User not found");
     }
 };
+
+
+//get My Profile
+const getMyProfile = async (id: string): Promise<IUser | null> => {
+    const result = await User.findById(id);
+    return result;
+};
+
+//Update My Profile
+const updateMyProfile = async (id: string, upatedData: Partial<IUser>): Promise<IUser | null> => {
+    const result = await User.findByIdAndUpdate(id, upatedData, { new: true });
+    return result;
+};
+
+
 //update a single users
 const updateUserById = async (id: string, payload: Partial<IUser>): Promise<IUser | null> => {
     const isExists = await User.findById(id);
@@ -120,11 +135,16 @@ const deleteUserById = async (id: string): Promise<IUser | null> => {
 };
 
 
+
+
+
 export const UserService = {
     createUser,
     getAllUsers,
     getUserById,
     updateUserById,
-    deleteUserById
+    deleteUserById,
+    getMyProfile,
+    updateMyProfile
 
 }
