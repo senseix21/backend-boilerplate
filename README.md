@@ -1,9 +1,6 @@
-
-<h1>
 # Backend Boilerplate with TypeScript, Node.js, Mongoose, and Express
 
 Welcome to the backend boilerplate! This project is designed to help you kickstart your web development journey with a powerful backend setup using TypeScript, Node.js, Mongoose, and Express.
-</h1>
 
 ## Prerequisites
 
