@@ -42,9 +42,9 @@ process.on('unhandledRejection', error => {
 
 
 connectDB();
-// process.on('SIGTERM', () => {
-//     console.log('SIGTERM is received');
-//     if (server) {
-//         server.close();
-//     }
-// });
+process.on('SIGTERM', () => {
+    console.log('SIGTERM is received');
+    if (server) {
+        server.close();
+    }
+});
